@@ -8,8 +8,6 @@ def load_words():
 
 def calc_word_value(word):
     finish_count = 0
-    """Calculate the value of the word entered into function
-    using imported constant mapping LETTER_SCORES"""
     for k in list(word):
         count_word = LETTER_SCORES.get(k.upper(), 0)
         finish_count += count_word
@@ -17,8 +15,6 @@ def calc_word_value(word):
 
 def max_word_value(my_dict=load_words()):
     max_count = 0
-    """Calculate the word with the max value, can receive a list
-    of words as arg, if none provided uses default DICTIONARY"""
     for i in my_dict:
         finish_count = calc_word_value(i)
         if max_count < finish_count:
