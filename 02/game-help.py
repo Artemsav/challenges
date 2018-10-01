@@ -14,25 +14,35 @@ NUM_LETTERS = 7
 
 def draw_letters():
     """Pick NUM_LETTERS letters randomly. Hint: use stdlib random"""
-    return random.choices(POUCH, k = NUM_LETTERS)
+    return random.choices(POUCH, k=NUM_LETTERS)
 
-print(draw_letters())
 
 def input_word(draw):
     """Ask player for a word and validate against draw.
     Use _validation(word, draw) helper."""
+    print(draw)
     parser = argparse.ArgumentParser(description='Type in your word, use only '
                                                  'the letters from draw')
-    parser.add_argument('word', help = ' a word for validation')
-    draw = parser.parse_args()
-
-    return draw
-
+    parser.add_argument('word', help=' a word for validation')
+    word = parser.parse_args()
+    if _validation(word, draw) is None:
+        return word
+    else:
+        print('Incorrect validation, please print word using only draw-letters')
 
 
 def _validation(word, draw):
     """Validations: 1) only use letters of draw, 2) valid dictionary word"""
-    pass
+    word_list = list(word.upper())
+    function_draw = list(set(draw))
+    out = []
+    if word in DICTIONARY:
+        for i in word_list:
+            for k in range(len(function_draw)):
+                if function_draw[k] == i:
+                    out.append(i)
+    if len(out) != len(word_list):
+        return ValueError
 
 
 # From challenge 01:
@@ -41,20 +51,24 @@ def calc_word_value(word):
     return sum(LETTER_SCORES.get(char.upper(), 0) for char in word)
 
 
+def _get_permutations_draw(draw):
+    """Helper for get_possible_dict_words to get all permutations of draw letters.
+    Hint: use itertools.permutations"""
+    permutations_draw = {itertools.permutations(draw,i) for i in range(1, (NUM_LETTERS+1))}
+    return itertools.chain(*permutations_draw)
+
+
 # Below 2 functions pass through the same 'draw' argument (smell?).
 # Maybe you want to abstract this into a class?
 # get_possible_dict_words and _get_permutations_draw would be instance methods.
 # 'draw' would be set in the class constructor (__init__).
 def get_possible_dict_words(draw):
-    """Get all possible words from draw which are valid dictionary words.
-    Use the _get_permutations_draw helper and DICTIONARY constant"""
-    pass
-
-
-def _get_permutations_draw(draw):
-    """Helper for get_possible_dict_words to get all permutations of draw letters.
-    Hint: use itertools.permutations"""
-    pass
+    possible_words = []
+    for get_word in _get_permutations_draw(draw):
+        real_word = ''.join(get_word).lower()
+        if _validation(real_word, draw) is None:
+                possible_words.append(real_word)
+    return possible_words
 
 
 # From challenge 01:
