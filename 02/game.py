@@ -21,7 +21,7 @@ def input_word(draw):
     """Ask player for a word and validate against draw.
     Use _validation(word, draw) helper."""
     parser = argparse.ArgumentParser(description='Type in your word, use only '
-                                                 'the letters from draw')
+                                                 'the letters from {}'.format(draw))
     parser.add_argument('word', help=' a word for validation')
     word = parser.parse_args()
     if _validation(word, draw) is None:
