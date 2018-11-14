@@ -1,5 +1,4 @@
 from collections import Counter
-from difflib import SequenceMatcher
 from itertools import combinations
 import re
 import xml.etree.ElementTree as etree

@@ -20,7 +20,6 @@ def draw_letters():
 def input_word(draw):
     """Ask player for a word and validate against draw.
     Use _validation(word, draw) helper."""
-    print(draw)
     parser = argparse.ArgumentParser(description='Type in your word, use only '
                                                  'the letters from draw')
     parser.add_argument('word', help=' a word for validation')
@@ -28,15 +27,16 @@ def input_word(draw):
     if _validation(word, draw) is None:
         return word
     else:
-        print('Incorrect validation, please print word using only draw-letters')
+        raise ValueError('Incorrect validation, please print word using only draw-letters')
 
 
 def _validation(word, draw):
     """Validations: 1) only use letters of draw, 2) valid dictionary word"""
-    word_list = list(word.upper())
-    function_draw = list(set(draw))
+    word_copy = str(word)
+    word_list = list(word_copy)
+    function_draw = list(set(x.lower() for x in draw))
     out = []
-    if word in DICTIONARY:
+    if word_copy in DICTIONARY:
         for i in word_list:
             for k in range(len(function_draw)):
                 if function_draw[k] == i:
@@ -44,11 +44,10 @@ def _validation(word, draw):
     if len(out) != len(word_list):
         return ValueError
 
-
 # From challenge 01:
 def calc_word_value(word):
     """Calc a given word value based on Scrabble LETTER_SCORES mapping"""
-    return sum(LETTER_SCORES.get(char.upper(), 0) for char in word)
+    return sum(LETTER_SCORES.get(char.upper(), 0) for char in str(word))
 
 
 def _get_permutations_draw(draw):
