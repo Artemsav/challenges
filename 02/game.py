@@ -20,10 +20,7 @@ def draw_letters():
 def input_word(draw):
     """Ask player for a word and validate against draw.
     Use _validation(word, draw) helper."""
-    parser = argparse.ArgumentParser(description='Type in your word, use only '
-                                                 'the letters from {}'.format(draw))
-    parser.add_argument('word', help=' a word for validation')
-    word = parser.parse_args()
+    word = input('Type in your word, use only the letters from draw:').lower()
     if _validation(word, draw) is None:
         return word
     else:
@@ -32,11 +29,11 @@ def input_word(draw):
 
 def _validation(word, draw):
     """Validations: 1) only use letters of draw, 2) valid dictionary word"""
-    word_copy = str(word)
-    word_list = list(word_copy)
+
+    word_list = list(word)
     function_draw = list(set(x.lower() for x in draw))
     out = []
-    if word_copy in DICTIONARY:
+    if word in DICTIONARY:
         for i in word_list:
             for k in range(len(function_draw)):
                 if function_draw[k] == i:
